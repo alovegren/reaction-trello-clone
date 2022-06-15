@@ -1,0 +1,9 @@
+POST http://localhost:5001/api/lists
+Content-Type: application/json
+
+{
+  "boardId": "62a8c7723a212ad30326e5ba",
+  "list": {
+    "title": "meowmoew"
+  }
+}
