@@ -7,9 +7,7 @@ const { validationResult } = require("express-validator");
 const getBoards = (req, res, next) => {
   Board.find({}, "title _id createdAt updatedAt").
   then((boards) => {
-    res.json({
-      boards,
-    });
+    res.json(boards);
   });
 };
 

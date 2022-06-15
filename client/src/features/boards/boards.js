@@ -31,9 +31,10 @@ const boardSlice = createSlice({
         return acc.concat(boardWithoutLists);
       }, []);
     }),
-      builder.addCase(createBoard.fulfilled, (state, action) => {
-        state.push(action.payload);
-      });
+
+    builder.addCase(createBoard.fulfilled, (state, action) => {
+      state.push(action.payload);
+    });
   },
 });
 
