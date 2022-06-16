@@ -5,7 +5,7 @@ const HttpError = require("../models/httpError");
 const addList = (boardId, listId) => {
   Board.findById(boardId)
     .then((board) => {
-      Board.updateOne({ _id: boardId }, { lists: board.lists.concat(listId) })
+      Board.findOneAndUpdate({ _id: boardId }, {"lists": board.lists.concat(listId)})
     })
     .catch((err) => {
       next(new HttpError("Adding new list to board failed, please try again", 500))
@@ -15,6 +15,7 @@ const addList = (boardId, listId) => {
 const createList = (req, res, next) => {
   List.create({"title": req.body.list.title, "boardId": req.body.boardId })
     .then((list) => {
+      console.log("createList", list.boardId)
       addList(list.boardId, list._id);
       List.find({ _id: list._id }, "-__v -cards").then(
         (list) => res.json(list)

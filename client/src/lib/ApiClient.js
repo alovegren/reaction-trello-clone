@@ -39,6 +39,22 @@ const apiClient = {
       logError(e);
     }
   },
+  createList: async (listData) => {
+    try {
+      const { data } = await axios.post(routes.CREATE_LIST_URL, listData)
+      return data;
+    } catch (e) {
+      logError(e);
+    }
+  },
+  updateList: async (updateInfo, listId) => {
+    try {
+      const { data } = await axios.put(`${routes.UPDATE_LIST_URL}/${listId}`, updateInfo)
+      return data;
+    } catch (e) {
+      logError(e);
+    }
+  }
 };
 
 export default apiClient;
