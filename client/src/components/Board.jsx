@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { getBoard } from "../features/boards/board"
+import { fetchBoard } from "../features/boards/boards"
 import { useParams } from 'react-router-dom';
 
 import Lists from './Lists'
@@ -8,11 +8,14 @@ import Lists from './Lists'
 const Board = () => {
   const { id } = useParams();
   const dispatch = useDispatch();
-  const board = useSelector(state => state.board);
+  const boards = useSelector(state => state.boards);
+  const board = boards.find(board => board._id === id);
 
   useEffect(() => {
-    dispatch(getBoard(id))
-  }, [dispatch])
+    dispatch(fetchBoard(id))
+  }, [dispatch, id])
+
+  if (!board) return null;
 
   return (
     <>

@@ -8,6 +8,14 @@ export const fetchBoards = createAsyncThunk("boards/fetchBoards", async () => {
   return data;
 });
 
+export const fetchBoard = createAsyncThunk(
+  "boards/fetchBoard",
+  async (boardId) => {
+    const data = await apiClient.getBoard(boardId);
+    return data;
+  }
+)
+
 export const createBoard = createAsyncThunk(
   "boards/createBoard",
   async (newBoard, callback) => {
@@ -24,13 +32,20 @@ const boardSlice = createSlice({
   initialState,
   reducers: {},
   extraReducers: (builder) => {
-    builder.addCase(fetchBoards.fulfilled, (state, action) => {
-      return action.payload.reduce((acc, comm) => {
-        //eslint-disable-next-line
-        const { lists, ...boardWithoutLists } = comm;
-        return acc.concat(boardWithoutLists);
-      }, []);
-    }),
+    builder.addCase(fetchBoards.fulfilled, (_, action) => {
+      return action.payload;
+    });
+
+    builder.addCase(fetchBoard.fulfilled, (state, action) => {
+      //eslint-disable-next-line
+      const { lists, ...boardWithoutLists } = action.payload;
+      
+      const boardsWithoutBoard = state.filter(board => {
+        return board._id !== action.payload._id;
+      });
+
+      return boardsWithoutBoard.concat(boardWithoutLists);
+    });
 
     builder.addCase(createBoard.fulfilled, (state, action) => {
       state.push(action.payload);

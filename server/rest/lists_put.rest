@@ -2,5 +2,5 @@ PUT http://localhost:5001/api/lists/62aa23b2e26c0b14db6efa54
 Content-Type: application/json
 
 {
-  "title": "woofwoof"
+  "title": "new title"
 }
