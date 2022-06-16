@@ -4,6 +4,6 @@ Content-Type: application/json
 {
   "boardId": "62a8c7723a212ad30326e5ba",
   "list": {
-    "title": "now dis list should go to a board too"
+    "title": "another weeddd"
   }
 }
