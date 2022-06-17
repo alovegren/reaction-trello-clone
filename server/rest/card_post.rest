@@ -1,0 +1,9 @@
+POST http://localhost:5001/api/cards
+Content-Type: application/json
+
+{
+  "listId": "62ab71936131cc46bb926e1d",
+  "card": {
+    "title": "meow mewo hoo eata"
+  }
+}
