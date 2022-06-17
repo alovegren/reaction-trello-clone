@@ -12,11 +12,13 @@ router.get('/boards', boardsController.getBoards);
 router.get('/boards/:id', boardsController.getBoard);
 router.post('/boards', validateBoard, boardsController.createBoard );
 
-router.post('/lists', validateList,listsController.createList);
+router.post('/lists', validateList,listsController.createList, listsController.addListToBoard);
 router.put('/lists/:id', listsController.updateList);
-module.exports = router;
+
 
 router.get('/cards/:id', cardsController.getCard);
 router.post('/cards', cardsController.createCard);
 
 // router.post('/cards', cardsController.createCard, cardsController.createAction, cardsController.addAction, cardsController.sendCard);
+
+module.exports = router;

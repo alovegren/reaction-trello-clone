@@ -2,43 +2,37 @@ const Board = require("../models/board");
 const HttpError = require("../models/httpError");
 const { validationResult } = require("express-validator");
 
-const getBoards = (req, res, next) => {
-  Board.find({}, "title _id createdAt updatedAt").then((boards) => {
-    res.json(boards);
-  });
+const getBoards = async (req, res, next) => {
+  const boards = await Board.find({}, "title _id createdAt updatedAt")
+  res.json(boards);
 };
 
-const getBoard = (req, res, next) => {
-  Board.findById(req.params.id, "-__v").populate("lists").populate({
-    path: 'lists',
-    populate: {
-      path: 'cards',
-      model: 'Card'
-    }
-  }).then((board) => {
-    if (!board) {
-      return next(new HttpError("No board found with this ID", 404))
-    } else {
-      res.json(board);
-    }
-  })
+const getBoard = async (req, res, next) => {
+  const board = await Board.findOne({_id: req.params.id}, "-__v")
+    .populate({path: 'lists', populate:{ path: "cards", model: "Card"}})
+
+  if (!board) {
+    return next(new HttpError("No board found with this ID", 404))
+  } else {
+    console.log(board)
+    res.json(board);
+  }
 }
 
-const createBoard = (req, res, next) => {
+const createBoard = async (req, res, next) => {
   const errors = validationResult(req);
   if (errors.isEmpty()) {
-    Board.create(req.body.board)
-      .then((board) => {
-        res.json({
-          title: board.title,
-          _id: board._id,
-          createdAt: board.createdAt,
-          updatedAt: board.updatedAt,
-        });
-      })
-      .catch((err) =>
-        next(new HttpError("Creating board failed, please try again", 500))
-      );
+    try {
+      const board = await Board.create(req.body.board)
+      res.json({
+        title: board.title,
+        _id: board._id,
+        createdAt: board.createdAt,
+        updatedAt: board.updatedAt,
+      });
+    } catch (err) {
+      next(new HttpError("Creating board failed, please try again", 500))
+    }
   } else {
     return next(new HttpError("The input field is empty.", 404));
   }

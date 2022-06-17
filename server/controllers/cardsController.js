@@ -24,19 +24,16 @@ const addActionToCard = (actionId, cardId) => {
     });
 }
 
-const getCard = (req, res, next) => {
-  Card.findById(req.params.id, "-__v")
-    .populate('actions')
-    .then((card) => {
-      if (!card) {
-        return next(new HttpError("No card found with this ID", 404))
-      } else {
-        res.json(card);
-      }
-  });
+const getCard = async (req, res, next) => {
+  const card = await Card.findById(req.params.id, "-__v").populate('actions')
+  if (!card) {
+    return next(new HttpError("No card found with this ID", 404))
+  } else {
+    res.json(card);
+  }
 }
 
-const createCard = (req, res, next) => {
+const createCard = async (req, res, next) => {
   let listName;
 
   Card.create({
