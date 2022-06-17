@@ -1,5 +1,4 @@
 const Board = require("../models/board");
-const Card = require('../models/card')
 const HttpError = require("../models/httpError");
 const { validationResult } = require("express-validator");
 
