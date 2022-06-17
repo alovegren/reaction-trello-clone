@@ -5,8 +5,12 @@ const initialState = [];
 
 export const createList = createAsyncThunk(
   "lists/createList",
-  async ({ listTitle, boardId }) => {
+  async ({ newListInput, callback }) => {
+    const { listTitle, boardId } = newListInput
+    console.log(listTitle, boardId)
     const data = await apiClient.createList({ boardId, list: { "title": listTitle }})
+
+    if (callback) { callback() }
     return data;
   }
 )

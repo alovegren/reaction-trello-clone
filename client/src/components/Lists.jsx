@@ -22,9 +22,16 @@ const Lists = () => {
     setNewListClass('new-list');
   }
 
+  const resetListInput = () => {
+    setListTitle('')
+  }
+
   const handleNewList = (event) => {
     event.preventDefault();
-    dispatch(createList({ listTitle, boardId }));
+    dispatch(createList({
+      newListInput: { listTitle, boardId },
+      callback: resetListInput, 
+    }));
   };
 
   return (

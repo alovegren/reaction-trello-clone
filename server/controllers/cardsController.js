@@ -14,7 +14,8 @@ const addActionToCard = (actionId, cardId) => {
       console.log(actionId)
       Card.findOneAndUpdate(
         { _id: cardId },
-        { "actions": card.actions.concat(actionId) }
+        { $push: { actions: actionId } },
+        { new: true }
       )
       .then(card => console.log(card))
     })

@@ -6,8 +6,14 @@ import { updateList } from '../features/lists/lists';
 
 const List = ({ listId, list }) => {
   const dispatch = useDispatch()
+
   const [titleClicked, setTitleClicked] = useState(false)
   const [listTitle, setListTitle] = useState(list.title)
+
+  const [listWrapperClass, setNewListWrapperClass] = useState('list-wrapper');
+  const [addDropDownClass, setAddDropDownClass] = useState('add-dropdown add-bottom');
+
+  // const [newCardTitle, setNewCardTitle]
   
   const handleParagraphClick = () => {
     setTitleClicked(true)
@@ -24,8 +30,13 @@ const List = ({ listId, list }) => {
     }
   }
 
+  const handleNewCardButton = () => {
+    setNewListWrapperClass('list-wrapper add-dropdown-active');
+    setAddDropDownClass('add-dropdown add-bottom active-card');
+  }
+
   return (
-    <div className="list-wrapper">
+    <div className={listWrapperClass}> 
       <div className="list-background">
                 <div className="list">
                   <a className="more-icon sm-icon" href=""></a>
@@ -49,7 +60,7 @@ const List = ({ listId, list }) => {
                     </div>
                   </div>
                   <Cards listId={list._id} />
-                  <div className="add-dropdown add-bottom">
+                  <div className={addDropDownClass}>
                     <div className="card">
                       <div className="card-info"></div>
                       <textarea name="add-card"></textarea>
@@ -61,7 +72,7 @@ const List = ({ listId, list }) => {
                       <span>...</span>
                     </div>
                   </div>
-                  <div className="add-card-toggle" data-position="bottom">
+                  <div onClick={handleNewCardButton} className="add-card-toggle" data-position="bottom">
                     Add a card...
                   </div>
                 </div>

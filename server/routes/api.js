@@ -18,3 +18,5 @@ module.exports = router;
 
 router.get('/cards/:id', cardsController.getCard);
 router.post('/cards', cardsController.createCard);
+
+// router.post('/cards', cardsController.createCard, cardsController.createAction, cardsController.addAction, cardsController.sendCard);
