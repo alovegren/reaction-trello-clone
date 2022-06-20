@@ -1,16 +1,16 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import { fetchBoard } from "../boards/boards";
 import apiClient from "../../lib/ApiClient";
+
 const initialState = [];
 
 export const createList = createAsyncThunk(
   "lists/createList",
   async ({ newListInput, callback }) => {
     const { listTitle, boardId } = newListInput
-    console.log(listTitle, boardId)
     const data = await apiClient.createList({ boardId, list: { "title": listTitle }})
 
-    if (callback) { callback() }
+    if (callback) callback();
     return data;
   }
 )

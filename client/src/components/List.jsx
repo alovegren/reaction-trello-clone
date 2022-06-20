@@ -2,18 +2,29 @@ import React from 'react'
 import Cards from './Cards'
 import { useState } from 'react'
 import { useDispatch } from "react-redux";
-import { updateList } from '../features/lists/lists';
 
-const List = ({ listId, list }) => {
+import { updateList } from '../features/lists/lists';
+import { createCard } from '../features/cards/cards';
+
+const List = (props) => {
+  // const globalListWrapperClass = useSelector(state => state.globalListWrapper);
+  // let's try using dispatch~
+
+  const {
+    listId, list, globalListWrapperClass,
+    globalDropDownClass, setGlobalListWrapperClass,
+    setGlobalDropDownClass,
+  } = props;
+
   const dispatch = useDispatch()
 
   const [titleClicked, setTitleClicked] = useState(false)
   const [listTitle, setListTitle] = useState(list.title)
 
-  const [listWrapperClass, setNewListWrapperClass] = useState('list-wrapper');
-  const [addDropDownClass, setAddDropDownClass] = useState('add-dropdown add-bottom');
+  const [listWrapperClass, setNewListWrapperClass] = useState(globalListWrapperClass);
+  const [addDropDownClass, setAddDropDownClass] = useState(globalDropDownClass);
 
-  // const [newCardTitle, setNewCardTitle]
+  const [cardTitle, setCardTitle] = useState('');
   
   const handleParagraphClick = () => {
     setTitleClicked(true)
@@ -31,8 +42,27 @@ const List = ({ listId, list }) => {
   }
 
   const handleNewCardButton = () => {
+    setGlobalListWrapperClass('list-wrapper');
+    setGlobalDropDownClass('add-dropdown add-bottom');
+    // resetNewCardDropdown();
     setNewListWrapperClass('list-wrapper add-dropdown-active');
     setAddDropDownClass('add-dropdown add-bottom active-card');
+  }
+
+  const handleCancelNewCard = () => {
+    setNewListWrapperClass('list-wrapper');
+    setAddDropDownClass('add-dropdown add-bottom');
+  }
+
+  const resetNewCardInput = () => {
+    setCardTitle('');
+  }
+
+  const handleNewCard = () => {
+    dispatch(createCard({
+      newCardInput: { cardTitle, listId },
+      callback: resetNewCardInput,
+    }));
   }
 
   return (
@@ -63,11 +93,11 @@ const List = ({ listId, list }) => {
           <div className={addDropDownClass}>
             <div className="card">
               <div className="card-info"></div>
-              <textarea name="add-card"></textarea>
+              <textarea onChange={(event) => setCardTitle(event.target.value)} name="add-card">{cardTitle}</textarea>
               <div className="members"></div>
             </div>
-            <a className="button">Add</a>
-            <i className="x-icon icon"></i>
+            <a onClick={handleNewCard} className="button">Add</a>
+            <i onClick={handleCancelNewCard} className="x-icon icon"></i>
             <div className="add-options">
               <span>...</span>
             </div>
