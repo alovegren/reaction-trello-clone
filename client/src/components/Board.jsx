@@ -10,7 +10,6 @@ const Board = () => {
   const dispatch = useDispatch();
   const boards = useSelector(state => state.boards);
   const board = boards.find(board => board._id === id);
-  console.log(board)
 
   useEffect(() => {
     dispatch(fetchBoard(id))

@@ -38,44 +38,44 @@ const List = ({ listId, list }) => {
   return (
     <div className={listWrapperClass}> 
       <div className="list-background">
-                <div className="list">
-                  <a className="more-icon sm-icon" href=""></a>
-                  <div>
-                    {titleClicked ? 
-                    <input className="list-title" 
-                           onChange={(e) => setListTitle(e.target.value)} 
-                           value={listTitle}
-                           onKeyDown={handleKeyDown}
-                           onBlur={handleTitleChange}
-                           /> :
-                    <p className="list-title" onClick={handleParagraphClick}>{listTitle}</p>
-                    }
-                  </div>
-                  <div className="add-dropdown add-top">
-                    <div className="card"></div>
-                    <a className="button">Add</a>
-                    <i className="x-icon icon"></i>
-                    <div className="add-options">
-                      <span>...</span>
-                    </div>
-                  </div>
-                  <Cards listId={list._id} />
-                  <div className={addDropDownClass}>
-                    <div className="card">
-                      <div className="card-info"></div>
-                      <textarea name="add-card"></textarea>
-                      <div className="members"></div>
-                    </div>
-                    <a className="button">Add</a>
-                    <i className="x-icon icon"></i>
-                    <div className="add-options">
-                      <span>...</span>
-                    </div>
-                  </div>
-                  <div onClick={handleNewCardButton} className="add-card-toggle" data-position="bottom">
-                    Add a card...
-                  </div>
-                </div>
+        <div className="list">
+          <a className="more-icon sm-icon" href=""></a>
+          <div>
+            {titleClicked ? 
+            <input className="list-title" 
+                    onChange={(e) => setListTitle(e.target.value)} 
+                    value={listTitle}
+                    onKeyDown={handleKeyDown}
+                    onBlur={handleTitleChange}
+                    /> :
+            <p className="list-title" onClick={handleParagraphClick}>{listTitle}</p>
+            }
+          </div>
+          <div className="add-dropdown add-top">
+            <div className="card"></div>
+            <a className="button">Add</a>
+            <i className="x-icon icon"></i>
+            <div className="add-options">
+              <span>...</span>
+            </div>
+          </div>
+          <Cards listId={list._id} />
+          <div className={addDropDownClass}>
+            <div className="card">
+              <div className="card-info"></div>
+              <textarea name="add-card"></textarea>
+              <div className="members"></div>
+            </div>
+            <a className="button">Add</a>
+            <i className="x-icon icon"></i>
+            <div className="add-options">
+              <span>...</span>
+            </div>
+          </div>
+          <div onClick={handleNewCardButton} className="add-card-toggle" data-position="bottom">
+            Add a card...
+          </div>
+        </div>
       </div>
     </div>
   );

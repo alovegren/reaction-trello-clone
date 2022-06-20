@@ -29,7 +29,6 @@ const listsSlice = createSlice({
   reducers: {},
   extraReducers: (builder) => {
     builder.addCase(fetchBoard.fulfilled, (_, action) => {
-      console.log(action.payload)
       return action.payload.lists.map(list => {
         //eslint-disable-next-line
         const { cards, ...listWithoutCards } = list;
