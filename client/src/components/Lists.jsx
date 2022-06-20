@@ -7,16 +7,11 @@ import { createList } from '../features/lists/lists'
 import List from './List'
 
 const Lists = () => {
-  console.log("Lists is rendering");
-
   const dispatch = useDispatch()
   const { id: boardId } = useParams();
 
   const [listTitle, setListTitle] = useState('');
   const [newListClass, setNewListClass] = useState('new-list');
-
-  const [globalListWrapperClass, setGlobalListWrapperClass] = useState('list-wrapper');
-  const [globalDropDownClass, setGlobalDropDownClass] = useState('add-dropdown add-bottom');
 
   const lists = useSelector(state => state.lists);
 
@@ -40,11 +35,6 @@ const Lists = () => {
     }));
   };
 
-  // const resetNewCardDropdown = () => {
-  //   setGlobalListWrapperClass('list-wrapper');
-  //   setGlobalDropDownClass('add-dropdown add-bottom');
-  // }
-
   return (
     <div id="list-container" className="list-container">
       <div id="existing-lists" className='existing-lists'>
@@ -52,11 +42,6 @@ const Lists = () => {
         key={list._id}
         list={list}
         listId={list._id}
-        globalListWrapperClass={globalListWrapperClass}
-        setGlobalListWrapperClass={setGlobalListWrapperClass}
-        globalDropDownClass={globalDropDownClass}
-        setGlobalDropDownClass={setGlobalDropDownClass}
-        // resetNewCardDropdown={resetNewCardDropdown}
         />)}
       </div>
       <div id="new-list" className={newListClass}>

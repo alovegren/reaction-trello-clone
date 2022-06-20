@@ -1,28 +1,23 @@
 import React from 'react'
 import Cards from './Cards'
 import { useState } from 'react'
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 
 import { updateList } from '../features/lists/lists';
 import { createCard } from '../features/cards/cards';
+import { resetDropdown } from '../features/cards/cardToggle';
 
-const List = (props) => {
-  // const globalListWrapperClass = useSelector(state => state.globalListWrapper);
-  // let's try using dispatch~
+const List = ({ listId, list }) => {
 
-  const {
-    listId, list, globalListWrapperClass,
-    globalDropDownClass, setGlobalListWrapperClass,
-    setGlobalDropDownClass,
-  } = props;
+  const globalClass = useSelector(state => state.cardToggle);
 
   const dispatch = useDispatch()
 
   const [titleClicked, setTitleClicked] = useState(false)
   const [listTitle, setListTitle] = useState(list.title)
 
-  const [listWrapperClass, setNewListWrapperClass] = useState(globalListWrapperClass);
-  const [addDropDownClass, setAddDropDownClass] = useState(globalDropDownClass);
+  const [listWrapperClass, setNewListWrapperClass] = useState(globalClass.globalListWrapperClass);
+  const [addDropDownClass, setAddDropDownClass] = useState(globalClass.globalDropDownClass);
 
   const [cardTitle, setCardTitle] = useState('');
   
@@ -42,14 +37,13 @@ const List = (props) => {
   }
 
   const handleNewCardButton = () => {
-    setGlobalListWrapperClass('list-wrapper');
-    setGlobalDropDownClass('add-dropdown add-bottom');
-    // resetNewCardDropdown();
+    dispatch(resetDropdown())
     setNewListWrapperClass('list-wrapper add-dropdown-active');
     setAddDropDownClass('add-dropdown add-bottom active-card');
   }
 
   const handleCancelNewCard = () => {
+    resetNewCardInput();
     setNewListWrapperClass('list-wrapper');
     setAddDropDownClass('add-dropdown add-bottom');
   }
@@ -93,7 +87,7 @@ const List = (props) => {
           <div className={addDropDownClass}>
             <div className="card">
               <div className="card-info"></div>
-              <textarea onChange={(event) => setCardTitle(event.target.value)} name="add-card">{cardTitle}</textarea>
+              <textarea onChange={(event) => setCardTitle(event.target.value)} value={cardTitle} name="add-card"></textarea>
               <div className="members"></div>
             </div>
             <a onClick={handleNewCard} className="button">Add</a>

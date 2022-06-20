@@ -4,7 +4,7 @@ import apiClient from "../../lib/ApiClient";
 
 const initialState = [];
 
-const createCard = createAsyncThunk(
+export const createCard = createAsyncThunk(
   "cards/createCard",
   async ({ newCardInput, callback}) => {
     const { cardTitle, listId } = newCardInput;
