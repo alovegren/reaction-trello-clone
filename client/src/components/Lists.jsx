@@ -7,8 +7,12 @@ import { createList } from '../features/lists/lists'
 import List from './List'
 
 const Lists = () => {
+  //active list id collection
+  //when click add card, add listid to the collection
+  const [activeListId, setActiveListId] = useState('')
+
   const dispatch = useDispatch()
-  const { id: boardId } = useParams();
+  const { board_id: boardId } = useParams();
 
   const [listTitle, setListTitle] = useState('');
   const [newListClass, setNewListClass] = useState('new-list');
@@ -42,6 +46,8 @@ const Lists = () => {
         key={list._id}
         list={list}
         listId={list._id}
+        activeListId={activeListId}
+        setActiveListId={setActiveListId}
         />)}
       </div>
       <div id="new-list" className={newListClass}>

@@ -6,14 +6,14 @@ import { useParams } from 'react-router-dom';
 import Lists from './Lists'
 
 const Board = () => {
-  const { id } = useParams();
+  const { board_id } = useParams();
   const dispatch = useDispatch();
   const boards = useSelector(state => state.boards);
-  const board = boards.find(board => board._id === id);
+  const board = boards.find(board => board._id === board_id);
 
   useEffect(() => {
-    dispatch(fetchBoard(id))
-  }, [dispatch, id])
+    dispatch(fetchBoard(board_id))
+  }, [dispatch, board_id])
 
   if (!board) return null;
 

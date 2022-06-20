@@ -1,26 +1,19 @@
 import React from 'react'
 import Cards from './Cards'
 import { useState } from 'react'
-import { useDispatch, useSelector } from "react-redux";
-
+import { useDispatch } from "react-redux";
 import { updateList } from '../features/lists/lists';
-import { createCard } from '../features/cards/cards';
-import { resetDropdown } from '../features/cards/cardToggle';
 
-const List = ({ listId, list }) => {
-
-  const globalClass = useSelector(state => state.cardToggle);
-
+const List = ({ listId, list, activeListId, setActiveListId }) => {
+  
   const dispatch = useDispatch()
 
   const [titleClicked, setTitleClicked] = useState(false)
   const [listTitle, setListTitle] = useState(list.title)
 
-  const [listWrapperClass, setNewListWrapperClass] = useState(globalClass.globalListWrapperClass);
-  const [addDropDownClass, setAddDropDownClass] = useState(globalClass.globalDropDownClass);
+  const active = activeListId === listId
+  const listWrapperClass = active ? 'list-wrapper add-dropdown-active' : 'list-wrapper';
 
-  const [cardTitle, setCardTitle] = useState('');
-  
   const handleParagraphClick = () => {
     setTitleClicked(true)
   }
@@ -34,29 +27,6 @@ const List = ({ listId, list }) => {
     if (event.key === "Enter") {
       handleTitleChange()
     }
-  }
-
-  const handleNewCardButton = () => {
-    dispatch(resetDropdown())
-    setNewListWrapperClass('list-wrapper add-dropdown-active');
-    setAddDropDownClass('add-dropdown add-bottom active-card');
-  }
-
-  const handleCancelNewCard = () => {
-    resetNewCardInput();
-    setNewListWrapperClass('list-wrapper');
-    setAddDropDownClass('add-dropdown add-bottom');
-  }
-
-  const resetNewCardInput = () => {
-    setCardTitle('');
-  }
-
-  const handleNewCard = () => {
-    dispatch(createCard({
-      newCardInput: { cardTitle, listId },
-      callback: resetNewCardInput,
-    }));
   }
 
   return (
@@ -83,22 +53,7 @@ const List = ({ listId, list }) => {
               <span>...</span>
             </div>
           </div>
-          <Cards listId={list._id} />
-          <div className={addDropDownClass}>
-            <div className="card">
-              <div className="card-info"></div>
-              <textarea onChange={(event) => setCardTitle(event.target.value)} value={cardTitle} name="add-card"></textarea>
-              <div className="members"></div>
-            </div>
-            <a onClick={handleNewCard} className="button">Add</a>
-            <i onClick={handleCancelNewCard} className="x-icon icon"></i>
-            <div className="add-options">
-              <span>...</span>
-            </div>
-          </div>
-          <div onClick={handleNewCardButton} className="add-card-toggle" data-position="bottom">
-            Add a card...
-          </div>
+          <Cards listId={listId} active={active} setActiveListId={setActiveListId}/>
         </div>
       </div>
     </div>
