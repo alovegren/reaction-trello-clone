@@ -3,18 +3,20 @@ import { useDispatch, useSelector } from "react-redux";
 import { fetchBoard } from "../features/boards/boards"
 import { useParams } from 'react-router-dom';
 
-import Lists from './Lists'
+import Lists from './Lists';
 
-const Board = () => {
-  const { id } = useParams();
+const Board = (props) => {
+  let { board_id: boardId } = useParams();
+
   const dispatch = useDispatch();
   const boards = useSelector(state => state.boards);
-  const board = boards.find(board => board._id === id);
+  const board = boards.find(board => board._id === boardId);
 
   useEffect(() => {
-    dispatch(fetchBoard(id))
-  }, [dispatch, id])
+    dispatch(fetchBoard(boardId))
+  }, [dispatch, boardId])
 
+  // if there's no boardId or no board, return null
   if (!board) return null;
 
   return (

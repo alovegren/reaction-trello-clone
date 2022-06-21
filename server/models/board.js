@@ -6,7 +6,7 @@ const BoardSchema = new Schema({
     type: String,
     required: [true, 'The Board title is required']
   },
-  lists: [{ type: Schema.Types.ObjectId, ref: 'List' }]
+  lists: [{ type: Schema.Types.ObjectId, ref: 'List', required: true }]
 }, { timestamps: true })
 
 const Board = mongoose.model('Board', BoardSchema);
