@@ -5,9 +5,11 @@ import Card from "./Card";
 import { useSelector } from "react-redux";
 import NewCardForm from './NewCardForm';
 
-import { Link } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 
 const Cards = ({ listId, active, setActiveListId }) => {
+  const { board_id } = useParams()
+
   const currentCards = useSelector(state => state.cards)
                       .filter(card =>card.listId === listId)
 
@@ -16,7 +18,7 @@ const Cards = ({ listId, active, setActiveListId }) => {
     <div id="cards-container" data-id="list-1-cards">
       {currentCards.map(card => (
         <>
-          <Link to={`/cards/${card._id}`}>
+          <Link to={`/boards/${board_id}/${card._id}`}>
             <Card key={card._id} cardDetails={card} />
           </Link>
         </>

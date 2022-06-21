@@ -10,7 +10,7 @@ const Lists = () => {
   const [activeListId, setActiveListId] = useState('')
 
   const dispatch = useDispatch()
-  const { id: boardId } = useParams();
+  const { board_id: boardId } = useParams();
 
   const [listTitle, setListTitle] = useState('');
   const [newListClass, setNewListClass] = useState('new-list');

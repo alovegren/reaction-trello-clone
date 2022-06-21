@@ -6,7 +6,7 @@ const CardSchema = new Schema({
     type: String,
     required: [true, 'The Card title is required']
   },
-  dueDate: String,
+  dueDate: Date,
   labels: [{ type: String }],
   description: String,
   listId: {

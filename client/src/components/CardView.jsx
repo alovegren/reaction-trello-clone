@@ -1,18 +1,23 @@
 import React from "react";
 import { useSelector } from "react-redux";
 import { useParams } from 'react-router-dom';
+import Labels from "./Labels";
 
 const CardView = () => {
-  const { id: cardId } = useParams();
+  const { card_id: cardId } = useParams();
 
   const cards = useSelector(state => state.cards);
-  console.log('cards from CardView component', cards)
   const card = cards.find(card => card._id === cardId);
-
-  // dispatch a fetchCard action here
+  const lists = useSelector(state => state.lists);
+  const list = lists.find(list => list._id === card.listId)
 
   if (!card) return null;
 
+  const date = new Date(card.dueDate)
+  const today = new Date()
+  const monthDay = date.toLocaleString('en-US', { month: 'short', day: 'numeric'})
+  const time = date.toLocaleString('en-US', { hour: "numeric", minute: "numeric", hour12: true })
+  const pastDue = date < today ? 'past due' : ''
   return (
       <div id="modal-container">
       <div className="screen"></div>
@@ -24,7 +29,7 @@ const CardView = () => {
             {card.title}
           </textarea>
           <p>
-            in list <a className="link">Stuff to try (this is a list)</a>
+            in list <a className="link">{list.title}</a>
             <i className="sub-icon sm-icon"></i>
           </p>
         </header>
@@ -32,40 +37,17 @@ const CardView = () => {
           <ul className="modal-outer-list">
             <li className="details-section">
               <ul className="modal-details-list">
-                <li className="labels-section">
-                  <h3>Labels</h3>
-                  <div className="member-container">
-                    <div className="green label colorblindable"></div>
-                  </div>
-                  <div className="member-container">
-                    <div className="yellow label colorblindable"></div>
-                  </div>
-                  <div className="member-container">
-                    <div className="orange label colorblindable"></div>
-                  </div>
-                  <div className="member-container">
-                    <div className="blue label colorblindable"></div>
-                  </div>
-                  <div className="member-container">
-                    <div className="purple label colorblindable"></div>
-                  </div>
-                  <div className="member-container">
-                    <div className="red label colorblindable"></div>
-                  </div>
-                  <div className="member-container">
-                    <i className="plus-icon sm-icon"></i>
-                  </div>
-                </li>
+                  <Labels labelDetails={card.labels} />
                 <li className="due-date-section">
                   <h3>Due Date</h3>
                   <div id="dueDateDisplay" className="overdue completed">
-                    {/* <input
+                    <input
                       id="dueDateCheckbox"
                       type="checkbox"
                       className="checkbox"
                       checked=""
-                    /> */}
-                    Aug 4 at 10:42 AM <span>(past due)</span>
+                    />
+                    {monthDay} at {time} <span>({pastDue})</span>
                   </div>
                 </li>
               </ul>
@@ -74,9 +56,9 @@ const CardView = () => {
                 <span id="description-edit" className="link">
                   Edit
                 </span>
-                {/* <p className="textarea-overlay">
-                  Cards have a symbol to indicate if they contain a description.
-                </p> */}
+                <p className="textarea-overlay">
+                  {card.description}
+                </p>
                 <p id="description-edit-options" className="hidden">
                   You have unsaved edits on this field.{" "}
                   <span className="link">View edits</span> -{" "}
@@ -92,11 +74,11 @@ const CardView = () => {
                 </div>
                 <div className="comment">
                   <label>
-                    {/* <textarea
+                    <textarea
                       required=""
                       rows="1"
                       placeholder="Write a comment..."
-                    ></textarea> */}
+                    ></textarea>
                     <div>
                       <a className="light-button card-icon sm-icon"></a>
                       <a className="light-button smiley-icon sm-icon"></a>
@@ -134,9 +116,9 @@ const CardView = () => {
                   </small>
                   <div className="comment">
                     <label>
-                      {/* <textarea required="" rows="1">
+                      <textarea required="" rows="1">
                         The activities have not been implemented yet.
-                      </textarea> */}
+                      </textarea>
                       <div>
                         <a className="light-button card-icon sm-icon"></a>
                         <a className="light-button smiley-icon sm-icon"></a>
@@ -177,9 +159,9 @@ const CardView = () => {
                   </small>
                   <div className="comment">
                     <label>
-                      {/* <textarea required="" rows="1">
+                      <textarea required="" rows="1">
                         Example of a comment.
-                      </textarea> */}
+                      </textarea>
                       <div>
                         <a className="light-button card-icon sm-icon"></a>
                         <a className="light-button smiley-icon sm-icon"></a>

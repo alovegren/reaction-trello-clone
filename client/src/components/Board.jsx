@@ -6,28 +6,10 @@ import { useParams } from 'react-router-dom';
 import Lists from './Lists';
 
 const Board = (props) => {
-  let { id } = useParams();
-  let boardId;
+  let { board_id: boardId } = useParams();
 
   const dispatch = useDispatch();
-  const cards = useSelector(state => state.cards);
-
-  if (props.location.pathname.includes('card')) {
-    if (!cards) {
-      boardId = null;
-    } else {
-      const card = cards.find(card => card._id === id);
-      boardId = card.boardId;
-    }
-  }
-  
-  // check if 'card' is in the url
-  // if it is, useSelector with state.cards and then access the boardId through that card
-  // reassign boardId to that 
-
-  console.log(props)
   const boards = useSelector(state => state.boards);
-  console.log('boards from Board component', boards)
   const board = boards.find(board => board._id === boardId);
 
   useEffect(() => {
