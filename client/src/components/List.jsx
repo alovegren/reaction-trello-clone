@@ -4,7 +4,7 @@ import { useState } from 'react'
 import { useDispatch } from "react-redux";
 import { updateList } from '../features/lists/lists';
 
-const List = ({ listId, list, activeListId, setActiveListId }) => {
+const List = ({ listId, list, activeListId, setActiveListId, onOpenCardClick }) => {
   
   const dispatch = useDispatch()
 
@@ -53,7 +53,7 @@ const List = ({ listId, list, activeListId, setActiveListId }) => {
               <span>...</span>
             </div>
           </div>
-          <Cards listId={listId} active={active} setActiveListId={setActiveListId}/>
+          <Cards listId={listId} active={active} setActiveListId={setActiveListId} onOpenCardClick={onOpenCardClick} />
         </div>
       </div>
     </div>

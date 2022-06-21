@@ -1,15 +1,27 @@
 import React from "react";
-const Card = () => {
+import { useSelector } from "react-redux";
+import { useParams } from 'react-router-dom';
+
+const CardView = () => {
+  const { id: cardId } = useParams();
+
+  const cards = useSelector(state => state.cards);
+  console.log('cards from CardView component', cards)
+  const card = cards.find(card => card._id === cardId);
+
+  // dispatch a fetchCard action here
+
+  if (!card) return null;
+
   return (
-    <div id="modal-container">
+      <div id="modal-container">
       <div className="screen"></div>
       <div id="modal">
         <i className="x-icon icon close-modal"></i>
         <header>
-          <i className="card-icon icon .close-modal"></i>
+          <i className="cardView-icon icon .close-modal"></i>
           <textarea className="list-title" style={{ height: "45px" }}>
-            Cards do many cool things. Click on this card to open it and learn
-            more...
+            {card.title}
           </textarea>
           <p>
             in list <a className="link">Stuff to try (this is a list)</a>
@@ -47,12 +59,12 @@ const Card = () => {
                 <li className="due-date-section">
                   <h3>Due Date</h3>
                   <div id="dueDateDisplay" className="overdue completed">
-                    <input
+                    {/* <input
                       id="dueDateCheckbox"
                       type="checkbox"
                       className="checkbox"
                       checked=""
-                    />
+                    /> */}
                     Aug 4 at 10:42 AM <span>(past due)</span>
                   </div>
                 </li>
@@ -62,9 +74,9 @@ const Card = () => {
                 <span id="description-edit" className="link">
                   Edit
                 </span>
-                <p className="textarea-overlay">
+                {/* <p className="textarea-overlay">
                   Cards have a symbol to indicate if they contain a description.
-                </p>
+                </p> */}
                 <p id="description-edit-options" className="hidden">
                   You have unsaved edits on this field.{" "}
                   <span className="link">View edits</span> -{" "}
@@ -80,11 +92,11 @@ const Card = () => {
                 </div>
                 <div className="comment">
                   <label>
-                    <textarea
+                    {/* <textarea
                       required=""
                       rows="1"
                       placeholder="Write a comment..."
-                    ></textarea>
+                    ></textarea> */}
                     <div>
                       <a className="light-button card-icon sm-icon"></a>
                       <a className="light-button smiley-icon sm-icon"></a>
@@ -122,9 +134,9 @@ const Card = () => {
                   </small>
                   <div className="comment">
                     <label>
-                      <textarea required="" rows="1">
+                      {/* <textarea required="" rows="1">
                         The activities have not been implemented yet.
-                      </textarea>
+                      </textarea> */}
                       <div>
                         <a className="light-button card-icon sm-icon"></a>
                         <a className="light-button smiley-icon sm-icon"></a>
@@ -165,9 +177,9 @@ const Card = () => {
                   </small>
                   <div className="comment">
                     <label>
-                      <textarea required="" rows="1">
+                      {/* <textarea required="" rows="1">
                         Example of a comment.
-                      </textarea>
+                      </textarea> */}
                       <div>
                         <a className="light-button card-icon sm-icon"></a>
                         <a className="light-button smiley-icon sm-icon"></a>
@@ -230,8 +242,8 @@ const Card = () => {
           </ul>
         </aside>
       </div>
-    </div>
+      </div>
   );
 };
 
-export default Card;
+export default CardView;

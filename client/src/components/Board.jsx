@@ -3,18 +3,38 @@ import { useDispatch, useSelector } from "react-redux";
 import { fetchBoard } from "../features/boards/boards"
 import { useParams } from 'react-router-dom';
 
-import Lists from './Lists'
+import Lists from './Lists';
 
-const Board = () => {
-  const { board_id } = useParams();
+const Board = (props) => {
+  let { id } = useParams();
+  let boardId;
+
   const dispatch = useDispatch();
+  const cards = useSelector(state => state.cards);
+
+  if (props.location.pathname.includes('card')) {
+    if (!cards) {
+      boardId = null;
+    } else {
+      const card = cards.find(card => card._id === id);
+      boardId = card.boardId;
+    }
+  }
+  
+  // check if 'card' is in the url
+  // if it is, useSelector with state.cards and then access the boardId through that card
+  // reassign boardId to that 
+
+  console.log(props)
   const boards = useSelector(state => state.boards);
-  const board = boards.find(board => board._id === board_id);
+  console.log('boards from Board component', boards)
+  const board = boards.find(board => board._id === boardId);
 
   useEffect(() => {
-    dispatch(fetchBoard(board_id))
-  }, [dispatch, board_id])
+    dispatch(fetchBoard(boardId))
+  }, [dispatch, boardId])
 
+  // if there's no boardId or no board, return null
   if (!board) return null;
 
   return (
