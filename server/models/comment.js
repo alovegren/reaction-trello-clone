@@ -1,14 +1,14 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
-const ActionSchema = new Schema({
-  description: String,
-  card_id: {
+const CommentSchema = new Schema({
+  text: String,
+  cardId: {
     type: Schema.Types.ObjectId,
     ref: "Card",
   },
 }, { timestamps: true });
 
-const Action = mongoose.model('Action', ActionSchema);
+const Comment = mongoose.model('Comment', CommentSchema);
 
-module.exports = Action;
+module.exports = Comment;
