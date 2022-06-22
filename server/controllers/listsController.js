@@ -4,18 +4,21 @@ const HttpError = require("../models/httpError");
 
 const addListToBoard = async (req, res, next) => {
   try {
-    const board = await Board.findById(res.locals.list.boardId)
-    await Board.findOneAndUpdate({ _id: res.locals.list.boardId }, {"lists": board.lists.concat(res.locals.list._id)})
-    res.json(res.locals.list)
+    const board = await Board.findById(req.context.list.boardId)
+    await Board.findOneAndUpdate({ _id: req.context.list.boardId }, {"lists": board.lists.concat(req.context.list._id)})
+    res.json(req.context.list)
   } catch (err) {
     next(new HttpError("Adding new list to board failed, please try again", 500))
   }
 }
 
 const createList = async (req, res, next) => {
+  req.context = {};
+
   try {
-    const list = await List.create({"title": req.body.list.title, "boardId": req.body.boardId })
-    res.locals.list = list
+    const list = await List.create({"title": req.body.list.title, "boardId": req.body.boardId });
+    const shortenedList = await List.find({ _id: list._id }, "-__v -cards");
+    req.context.list = shortenedList;
     next()
   } catch (err) {
     next(new HttpError("Creating list failed, please try again", 500))
@@ -24,8 +27,9 @@ const createList = async (req, res, next) => {
 
 const updateList = async (req, res, next) => {
   try {
-    const list = List.findOneAndUpdate({_id: req.params.id}, req.body)
+    const list = await List.findOneAndUpdate({_id: req.params.id}, req.body)
     const shortenedList = List.find({ _id: list._id }, "-__v -cards")
+    res.json(shortenedList)
   } catch(err) {
     next(new HttpError("Updating list failed, please try again", 500))
   }

@@ -61,6 +61,10 @@ const sendCard = async (req, res, next) => {
   res.json(req.context.card);
 }
 
+const updateCard = async (req, res, next) => {
+  // await Card.findOneAndUpdate({ _id: req.params.id })
+}
+
 exports.getCard = getCard;
 exports.createCard = createCard;
 exports.createAction = createAction;
