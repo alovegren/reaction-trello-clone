@@ -21,6 +21,6 @@ router.get('/cards/:id', cardsController.getCard);
 router.post('/cards', cardsController.createCard, cardsController.createAction, cardsController.addAction, cardsController.addCard, cardsController.sendCard);
 router.put('/cards/:id', cardsController.updateCard);
 
-router.post('/comments', commentsController.createComment)
+router.post('/comments', commentsController.createComment, commentsController.addCommentToCard, commentsController.sendComment)
 
 module.exports = router;

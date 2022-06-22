@@ -70,6 +70,14 @@ const apiClient = {
     } catch (e) {
       logError(e);
     }
+  },
+  createComment: async (commentInfo) => {
+    try {
+      const { data } = await axios.post(routes.CREATE_COMMENT_URL, commentInfo)
+      return data;
+    } catch (e) {
+      logError(e);
+    }
   }
 };
 

@@ -14,7 +14,6 @@ const getBoard = async (req, res, next) => {
   if (!board) {
     return next(new HttpError("No board found with this ID", 404))
   } else {
-    console.log(board)
     res.json(board);
   }
 }

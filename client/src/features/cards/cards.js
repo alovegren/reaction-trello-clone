@@ -30,7 +30,12 @@ const cardsSlice = createSlice({
   reducers: {},
   extraReducers: (builder) => {
     builder.addCase(fetchBoard.fulfilled, (_, action) => {
-      return action.payload.lists.flatMap(list => list.cards)
+      return action.payload.lists.flatMap(list => {
+        return list.cards.map(card => {
+          const {comments, ...cardWithoutComments} = card;
+          return cardWithoutComments;
+        })
+      })
     });
 
     builder.addCase(createCard.fulfilled, (state, action) => {

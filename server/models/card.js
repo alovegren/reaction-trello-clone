@@ -18,10 +18,14 @@ const CardSchema = new Schema({
     ref: "Board",
   },
   position: Number,
-  commentsCount: Number,
+  commentsCount: { type: Number, default: 0 },
   actions: [{
     type: Schema.Types.ObjectId,
     ref: "Action",
+  }],
+  comments: [{
+    type: Schema.Types.ObjectId,
+    ref: "Comment",
   }],
 });
 
