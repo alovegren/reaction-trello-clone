@@ -1,8 +1,11 @@
 import React from "react";
+import { useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { useParams, Link } from 'react-router-dom';
 import Labels from "./Labels";
 import { updateCard } from "../features/cards/cards"
+import CardPreEditDescription from "./CardPreEditDescription";
+import CardEditingDescription from "./CardEditingDescription";
 
 const CardView = () => {
   const dispatch = useDispatch()
@@ -12,6 +15,7 @@ const CardView = () => {
   const card = cards.find(card => card._id === cardId);
   const lists = useSelector(state => state.lists);
   const list = lists.find(list => list._id === card.listId)
+  const [isEditingDescription, setIsEditingDescription] = useState(false)
 
   if (!card) return null;
 
@@ -24,6 +28,14 @@ const CardView = () => {
   const handleCardTitleChange = (e) => {
     const newTitle = e.currentTarget.value;
     dispatch(updateCard({cardInfo: { card: {title: newTitle} }, cardId}))
+  }
+
+  const handleEditDescriptionClick = () => {
+    setIsEditingDescription(true)
+  }
+
+  const handleExitEditDescriptionClick = () => {
+    setIsEditingDescription(false)
   }
 
   return (
@@ -62,20 +74,10 @@ const CardView = () => {
                   </div>
                 </li>
               </ul>
-              <form className="description">
-                <p>Description</p>
-                <span id="description-edit" className="link">
-                  Edit
-                </span>
-                <p className="textarea-overlay">
-                  {card.description}
-                </p>
-                <p id="description-edit-options" className="hidden">
-                  You have unsaved edits on this field.{" "}
-                  <span className="link">View edits</span> -{" "}
-                  <span className="link">Discard</span>
-                </p>
-              </form>
+              {isEditingDescription ? 
+              <CardEditingDescription originalDes={card.description} handleExitEditDescriptionClick={handleExitEditDescriptionClick}/> :
+              <CardPreEditDescription description={card.description} handleEditDescriptionClick={handleEditDescriptionClick}/>
+              }
             </li>
             <li className="comment-section">
               <h2 className="comment-icon icon">Add Comment</h2>

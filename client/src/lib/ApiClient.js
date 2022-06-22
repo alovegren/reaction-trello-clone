@@ -47,7 +47,7 @@ const apiClient = {
       logError(e);
     }
   },
-  updateList: async (updateInfo, listId) => {
+  updat1eList: async (updateInfo, listId) => {
     try {
       const { data } = await axios.put(`${routes.UPDATE_LIST_URL}/${listId}`, updateInfo)
       return data;
