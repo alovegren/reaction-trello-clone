@@ -1,11 +1,13 @@
 import React from "react";
-import { useSelector } from "react-redux";
-import { useParams } from 'react-router-dom';
+import { useSelector, useDispatch } from "react-redux";
+import { useParams, Link } from 'react-router-dom';
 import Labels from "./Labels";
+import { updateCard } from "../features/cards/cards"
 
 const CardView = () => {
+  const dispatch = useDispatch()
   const { card_id: cardId } = useParams();
-
+  const { board_id: boardId } = useParams();
   const cards = useSelector(state => state.cards);
   const card = cards.find(card => card._id === cardId);
   const lists = useSelector(state => state.lists);
@@ -18,14 +20,23 @@ const CardView = () => {
   const monthDay = date.toLocaleString('en-US', { month: 'short', day: 'numeric'})
   const time = date.toLocaleString('en-US', { hour: "numeric", minute: "numeric", hour12: true })
   const pastDue = date < today ? 'past due' : ''
+
+  const handleCardTitleChange = (e) => {
+    const newTitle = e.currentTarget.value;
+    dispatch(updateCard({cardInfo: { card: {title: newTitle} }, cardId}))
+  }
+
   return (
       <div id="modal-container">
       <div className="screen"></div>
       <div id="modal">
-        <i className="x-icon icon close-modal"></i>
+        <Link to={`/boards/${boardId}`}>
+          <i className="x-icon icon close-modal"></i>
+        </Link>
+        
         <header>
           <i className="cardView-icon icon .close-modal"></i>
-          <textarea className="list-title" style={{ height: "45px" }}>
+          <textarea className="list-title" style={{ height: "45px" }} onBlur={handleCardTitleChange} >
             {card.title}
           </textarea>
           <p>

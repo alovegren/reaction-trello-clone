@@ -63,7 +63,6 @@ const sendCard = async (req, res, next) => {
 
 const updateCard = async (req, res, next) => {
   await Card.findOneAndUpdate({ _id: req.params.id }, req.body.card)
-  console.log(req.params.id)
   const card = await Card.findById(req.params.id, "-__v").populate('actions')
   res.json(card)
 }

@@ -15,6 +15,15 @@ export const createCard = createAsyncThunk(
   }
 )
 
+export const updateCard = createAsyncThunk(
+  "cards/updateCard",
+  async (newCardInput) => {
+    const { cardInfo, cardId } = newCardInput;
+    const data = await apiClient.updateCard(cardInfo, cardId);
+    return data;
+  }
+)
+
 const cardsSlice = createSlice({
   name: "cards",
   initialState,
@@ -26,6 +35,16 @@ const cardsSlice = createSlice({
 
     builder.addCase(createCard.fulfilled, (state, action) => {
       return state.concat(action.payload);
+    });
+
+    builder.addCase(updateCard.fulfilled, (state, action) => {
+      return state.map(card => {
+        if (card._id === action.payload._id) {
+          return action.payload
+        } else {
+          return card
+        }
+      })
     })
   },
 });
