@@ -1,0 +1,9 @@
+PUT http://localhost:5001/api/cards/62b0993991b9a83df95fbaee
+Content-Type: application/json
+
+{
+  "card": {
+    "title": "new title",
+    "completed": true
+  }
+}

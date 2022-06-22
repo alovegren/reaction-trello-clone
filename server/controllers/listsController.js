@@ -17,7 +17,7 @@ const createList = async (req, res, next) => {
 
   try {
     const list = await List.create({"title": req.body.list.title, "boardId": req.body.boardId });
-    const shortenedList = await List.find({ _id: list._id }, "-__v -cards");
+    const shortenedList = await List.findOne({ _id: list._id }, "-__v -cards");
     req.context.list = shortenedList;
     next()
   } catch (err) {
@@ -28,7 +28,7 @@ const createList = async (req, res, next) => {
 const updateList = async (req, res, next) => {
   try {
     const list = await List.findOneAndUpdate({_id: req.params.id}, req.body)
-    const shortenedList = List.find({ _id: list._id }, "-__v -cards")
+    const shortenedList = await List.find({ _id: list._id }, "-__v -cards")
     res.json(shortenedList)
   } catch(err) {
     next(new HttpError("Updating list failed, please try again", 500))
