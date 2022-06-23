@@ -1,18 +1,13 @@
 import React from "react"
+import CardLabel from "../Labels/CardLabel";
 
 const Card = ({ cardDetails }) => {
-
   return (
     <div className="card-background">
       <div className="card ">
         <i className="edit-toggle edit-icon sm-icon"></i>
         <div className="card-info">
-          <div className="card-label green colorblindable"></div>
-          <div className="card-label yellow colorblindable"></div>
-          <div className="card-label red colorblindable"></div>
-          <div className="card-label orange colorblindable"></div>
-          <div className="card-label blue colorblindable"></div>
-          <div className="card-label purple colorblindable"></div>
+          {cardDetails.labels.map(label => <CardLabel key={label} color={label} />)}
           <p>{cardDetails.title}</p>
         </div>
         <div className="card-icons">

@@ -1,8 +1,9 @@
 import React from "react";
-import { useState } from "react";
+import { useState, useReducer } from "react";
 import { useSelector } from "react-redux";
 import { useParams, Link } from 'react-router-dom';
 import Labels from "../Labels/Labels";
+import DueDate from "./DueDate";
 
 import CardPreEditDescription from "./CardPreEditDescription";
 import CardEditingDescription from "./CardEditingDescription";
@@ -23,14 +24,6 @@ const CardView = () => {
 
   const [isEditingDescription, setIsEditingDescription] = useState(false);
 
-  if (!card) return null;
-
-  const date = new Date(card.dueDate)
-  const today = new Date()
-  const monthDay = date.toLocaleString('en-US', { month: 'short', day: 'numeric'})
-  const time = date.toLocaleString('en-US', { hour: "numeric", minute: "numeric", hour12: true })
-  const pastDue = date < today ? 'past due' : ''
-
   const handleEditDescriptionClick = () => {
     setIsEditingDescription(true)
   }
@@ -38,6 +31,38 @@ const CardView = () => {
   const handleExitEditDescriptionClick = () => {
     setIsEditingDescription(false)
   }
+
+  const reducer = (prevState, updatedProperty) => ({
+    ...prevState,
+    ...updatedProperty,
+  });
+
+  const initState = {
+    popover: {
+      visible: false,
+      attachedTo: null,
+      type: null,
+    },
+  };
+
+  const [popoverState, setPopoverState] = useReducer(reducer, initState);
+
+  const handleNewDateClick = (e) => {
+    setPopoverState({
+      popover: {
+        visible: true,
+        attachedTo: e.currentTarget,
+        type: "new-board",
+      },
+    });
+  };
+
+  const handleClosePopoverClick = (e) => {
+    e.preventDefault();
+    setPopoverState(initState);
+  };
+
+  if (!card) return null;
 
   return (
       <div id="modal-container">
@@ -60,18 +85,11 @@ const CardView = () => {
             <li className="details-section">
               <ul className="modal-details-list">
                   <Labels labelDetails={card.labels} />
-                <li className="due-date-section">
-                  <h3>Due Date</h3>
-                  <div id="dueDateDisplay" className="overdue completed">
-                    <input
-                      id="dueDateCheckbox"
-                      type="checkbox"
-                      className="checkbox"
-                      checked=""
-                    />
-                    {monthDay} at {time} <span>({pastDue})</span>
-                  </div>
-                </li>
+                  <DueDate
+                    dueDate={card.dueDate}
+                    handleClosePopoverClick={handleClosePopoverClick}
+                    state={popoverState}
+                  />
               </ul>
               {isEditingDescription ? 
               <CardEditingDescription originalDes={card.description} handleExitEditDescriptionClick={handleExitEditDescriptionClick}/> :
@@ -94,7 +112,7 @@ const CardView = () => {
             <li className="checklist-button">
               <i className="checklist-icon sm-icon"></i>Checklist
             </li>
-            <li className="date-button not-implemented">
+            <li onClick={handleNewDateClick} className="date-button not-implemented">
               <i className="clock-icon sm-icon"></i>Due Date
             </li>
             <li className="attachment-button not-implemented">
