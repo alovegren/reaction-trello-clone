@@ -1,8 +1,8 @@
 import React from 'react'
-import Cards from './Cards'
+import Cards from '../Cards/Cards'
 import { useState } from 'react'
 import { useDispatch } from "react-redux";
-import { updateList } from '../features/lists/lists';
+import { updateList } from '../../features/lists/lists';
 
 const List = ({ listId, list, activeListId, setActiveListId, onOpenCardClick }) => {
   

@@ -3,7 +3,7 @@ const Schema = mongoose.Schema;
 
 const ActionSchema = new Schema({
   description: String,
-  card_id: {
+  cardId: {
     type: Schema.Types.ObjectId,
     ref: "Card",
   },

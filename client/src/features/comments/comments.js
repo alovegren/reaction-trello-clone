@@ -23,12 +23,15 @@ const commentsSlice = createSlice({
     });
 
     builder.addCase(fetchBoard.fulfilled, (state, action) => {
+      const newState = [];
+
       action.payload.lists.forEach(list => {
         list.cards.forEach(card => {
-          state.push(...card.comments)
+          newState.push(...card.comments)
         })
-      })
-      return state;
+      });
+      
+      return newState;
     });
   }
 });

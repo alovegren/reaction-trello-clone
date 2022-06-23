@@ -1,9 +1,9 @@
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { fetchBoard } from "../features/boards/boards"
+import { fetchBoard } from "../../features/boards/boards"
 import { useParams } from 'react-router-dom';
 
-import Lists from './Lists';
+import Lists from '../Lists/Lists';
 
 const Board = (props) => {
   let { board_id: boardId } = useParams();

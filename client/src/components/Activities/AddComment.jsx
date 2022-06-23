@@ -1,6 +1,6 @@
 import React, { useState } from "react"
 import { useDispatch } from "react-redux"
-import { createComment } from "../features/comments/comments";
+import { createComment } from "../../features/comments/comments";
 import { useParams } from "react-router-dom"
 const AddComment = () => {
   const dispatch = useDispatch();

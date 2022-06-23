@@ -1,7 +1,7 @@
 import React from "react"
 import { useState } from "react";
 import { useDispatch } from "react-redux";
-import { createCard } from '../features/cards/cards'
+import { createCard } from '../../features/cards/cards'
 
 const NewCardForm = ({ listId, active, setActiveListId}) => {
   const dispatch = useDispatch()

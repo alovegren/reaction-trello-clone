@@ -9,7 +9,20 @@ const getBoards = async (req, res, next) => {
 
 const getBoard = async (req, res, next) => {
   const board = await Board.findOne({_id: req.params.id}, "-__v")
-    .populate({path: 'lists', populate:{ path: "cards", model: "Card"}})
+    .populate({ 
+      path: 'lists', populate: {
+        path: "cards", model: "Card", populate: {
+          path: "comments", model: "Comment"
+        } 
+      }
+    })
+    .populate({ 
+      path: 'lists', populate: {
+        path: "cards", populate: {
+          path: "actions", model: "Action"
+        } 
+      }
+    });
 
   if (!board) {
     return next(new HttpError("No board found with this ID", 404))

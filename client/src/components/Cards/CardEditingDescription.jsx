@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { updateCard } from "../features/cards/cards";
+import { updateCard } from "../../features/cards/cards";
 import { useDispatch } from "react-redux";
 import { useParams } from "react-router-dom"
 

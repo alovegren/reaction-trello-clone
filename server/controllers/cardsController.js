@@ -30,7 +30,7 @@ const createCard = async (req, res, next) => {
 const createAction = async (req, res, next) => {
   const action = await Action.create({
     description: `added this card to ${req.context.list.title}`,
-    card_id: req.context.card._id,
+    cardId: req.context.card._id,
   });
 
   req.context.actionId = action._id;

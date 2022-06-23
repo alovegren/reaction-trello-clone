@@ -13,8 +13,9 @@ import DueDatePopover from "./ui/DueDatePopover";
 import LabelsPopover from "./ui/LabelsPopover";
 import MoveCardPopover from "./ui/MoveCardPopover";
 import SingleBoard from "./ui/SingleBoard";
-import Board from './Board'
-import CardView from './CardView'
+
+import Board from './Board/Board';
+import CardView from './Cards/CardView';
 
 const Application = () => {
   return (
