@@ -1,7 +1,8 @@
 import React from "react";
-import { useState, useReducer } from "react";
-import { useSelector } from "react-redux";
+import { useState } from "react";
+import { useSelector, useDispatch } from "react-redux";
 import { useParams, Link } from 'react-router-dom';
+
 import Labels from "../Labels/Labels";
 import DueDate from "./DueDate";
 
@@ -11,9 +12,15 @@ import CardEditingDescription from "./CardEditingDescription";
 import AddComment from "../Activities/AddComment";
 import ActivitySection from "../Activities/ActivitySection";
 
+import Popover from "../shared/Popover";
+import DueDateForm from "./DueDateForm";
+import { updateCard } from "../../features/cards/cards";
+
 import CardTitle from "./CardTitle";
 
 const CardView = () => {
+  const dispatch = useDispatch();
+
   const { card_id: cardId } = useParams();
   const { board_id: boardId } = useParams();
 
@@ -22,6 +29,7 @@ const CardView = () => {
   const lists = useSelector(state => state.lists);
   const list = lists.find(list => list._id === card.listId)
 
+  console.log(card);
   const [isEditingDescription, setIsEditingDescription] = useState(false);
 
   const handleEditDescriptionClick = () => {
@@ -32,40 +40,44 @@ const CardView = () => {
     setIsEditingDescription(false)
   }
 
-  const reducer = (prevState, updatedProperty) => ({
-    ...prevState,
-    ...updatedProperty,
-  });
-
   const initState = {
-    popover: {
-      visible: false,
-      attachedTo: null,
-      type: null,
-    },
+    visible: false,
+    attachedTo: null,
+    type: null,
   };
 
-  const [popoverState, setPopoverState] = useReducer(reducer, initState);
+  // const [popoverState, setPopoverState] = useState(initState);
+  const [isDueDateFormVisible, setIsDueDateFormVisible] = useState(false);
 
   const handleNewDateClick = (e) => {
-    setPopoverState({
-      popover: {
-        visible: true,
-        attachedTo: e.currentTarget,
-        type: "new-board",
-      },
-    });
+    setIsDueDateFormVisible(true);
+    // setPopoverState({
+    //   visible: true,
+    //   attachedTo: e.target,
+    //   type: "due-date",
+    // });
   };
 
   const handleClosePopoverClick = (e) => {
     e.preventDefault();
-    setPopoverState(initState);
+    setIsDueDateFormVisible(false);
+    // setPopoverState(initState);
   };
+
+  const handleNewDate = (dueDate) => {
+    console.log(dueDate);
+    dispatch(updateCard({
+      cardInfo: { card: { dueDate } },
+      cardId,
+      callback: handleClosePopoverClick
+    }));
+  }
 
   if (!card) return null;
 
   return (
-      <div id="modal-container">
+    <>
+    <div id="modal-container">
       <div className="screen"></div>
       <div id="modal">
         <Link to={`/boards/${boardId}`}>
@@ -85,11 +97,7 @@ const CardView = () => {
             <li className="details-section">
               <ul className="modal-details-list">
                   <Labels labelDetails={card.labels} />
-                  <DueDate
-                    dueDate={card.dueDate}
-                    handleClosePopoverClick={handleClosePopoverClick}
-                    state={popoverState}
-                  />
+                  <DueDate dueDate={card.dueDate} />
               </ul>
               {isEditingDescription ? 
               <CardEditingDescription originalDes={card.description} handleExitEditDescriptionClick={handleExitEditDescriptionClick}/> :
@@ -140,8 +148,17 @@ const CardView = () => {
             <li className="not-implemented">Share and more...</li>
           </ul>
         </aside>
+        {isDueDateFormVisible ? (<DueDateForm
+          dueDate={card.dueDate}
+          onClose={handleClosePopoverClick}
+          onSubmit={handleNewDate}
+        />) : null}
       </div>
       </div>
+      {/* <Popover {...popoverState}>
+        
+      </Popover> */}
+    </>
   );
 };
 

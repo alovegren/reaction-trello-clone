@@ -9,7 +9,10 @@ const CardEditingDescription = ({ originalDes, handleExitEditDescriptionClick })
   const dispatch = useDispatch();
 
   const handleSaveDescription = () => {
-    dispatch(updateCard({cardInfo: { card: {description} }, cardId}))
+    dispatch(updateCard({
+      cardInfo: { card: { description } },
+      cardId,
+    }));
     handleExitEditDescriptionClick();
   }
 

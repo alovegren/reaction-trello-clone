@@ -10,15 +10,10 @@ const ActivitySection = () => {
   const allComments = useSelector(state => state.comments);
   const allActions = useSelector(state => state.actions);
 
-  console.log("actions", allActions);
-
   const allCommentsAndActions = allComments.concat(allActions);
-  console.log("all comments and actions", allCommentsAndActions);
   const members = allCommentsAndActions.filter(member => (
     member.cardId === cardId
   ));
-
-  console.log("filtered comments and actions", members);
 
   members.sort((memberA, memberB) => {
     const dateA = new Date(memberA.createdAt);

@@ -1,13 +1,15 @@
-import React, { useEffect, useRef } from "react";
+import React from "react";
+import { useEffect, useRef, useCallback } from "react";
+
 import Pikaday from "pikaday";
 import moment from "moment";
-import { useCallback } from "react";
 
 const DueDateForm = (props) => {
   const dateInput = useRef(null);
   const calendar = useRef(null);
 
   const defaultMoment = useCallback(() => {
+    console.log("in defaultMoment");
     if (props.dueDate) {
       return moment(props.dueDate);
     } else {
@@ -24,10 +26,12 @@ const DueDateForm = (props) => {
   }, [props.dueDate]);
 
   const defaultDate = useCallback(() => {
+    console.log("in defaultDate");
     defaultMoment().toDate();
   }, [defaultMoment]);
 
   useEffect(() => {
+    console.log('pikaday');
     const picker = new Pikaday({
       field: dateInput.current,
       bound: false,
@@ -72,6 +76,13 @@ const DueDateForm = (props) => {
     });
     picker.show();
   }, [defaultDate]);
+
+  const handleNewDate = (e) => {
+    e.preventDefault();
+    console.log(dateInput.current.value);
+    props.onSubmit(dateInput.current.value);
+  }
+
   return (
     <div>
       <header>
@@ -79,7 +90,7 @@ const DueDateForm = (props) => {
         <a href="#" className="icon-sm icon-close" onClick={props.onClose}></a>
       </header>
       <div className="content">
-        <form onSubmit={props.onSubmit} onReset={props.onRemove}>
+        <form onSubmit={handleNewDate}>
           <div className="datepicker-select">
             <div className="datepicker-select-date">
               <label>

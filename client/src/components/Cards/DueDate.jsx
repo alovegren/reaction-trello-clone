@@ -1,21 +1,19 @@
 import React from "react";
 
-import Popover from "../shared/Popover";
-import DueDateForm from "./DueDateForm";
-
-const DueDate = ({ dueDate, handleClosePopoverClick, state }) => {
+const DueDate = ({ dueDate }) => {
   let displayDate;
+  let pastDue;
 
   if (!dueDate) {
     displayDate = "No Due Date";
   } else {
-    const date = new Date(dueDate)
-    const today = new Date()
-    const monthDay = date.toLocaleString('en-US', { month: 'short', day: 'numeric'})
-    const time = date.toLocaleString('en-US', { hour: "numeric", minute: "numeric", hour12: true })
-    const pastDue = date < today ? 'past due' : ''
+    const date = new Date(dueDate);
+    const today = new Date();
+    const monthDay = date.toLocaleString('en-US', { month: 'short', day: 'numeric'});
+    const time = date.toLocaleString('en-US', { hour: "numeric", minute: "numeric", hour12: true });
+    pastDue = date < today ? ' (past due)' : '';
 
-    displayDate = `${monthDay} at ${time} <span>(${pastDue})</span>`
+    displayDate = `${monthDay} at ${time}`
   }
 
   return (
@@ -28,16 +26,8 @@ const DueDate = ({ dueDate, handleClosePopoverClick, state }) => {
           className="checkbox"
           checked=""
         />
-        {displayDate}
+        {displayDate}<span>{pastDue}</span>
       </div>
-      <Popover {...state.popover} coverTarget={true}>
-        <DueDateForm
-          dueDate={dueDate}
-          onClose={handleClosePopoverClick}
-          // onSubmit={}
-          // onRemove={}
-        />
-      </Popover>
     </li>
   )
 }
