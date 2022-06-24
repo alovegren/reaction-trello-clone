@@ -38,9 +38,9 @@ const Application = () => {
       <Route path="/ui/moveCardPopover" component={MoveCardPopover} />
       <Route path="/ui/singleBoard" component={SingleBoard} />
       
-      <Route path="/boards/:board_id/:card_id" component={Board} />
-      <Route path="/boards/:board_id/:card_id" component={CardView} />
-      <Route path="/boards/:board_id" component={Board} />
+      <Route path="/cards/:id" component={CardView} />
+      <Route path="/cards/:id" component={Board} />
+      <Route path="/boards/:id" component={Board} />
       
     </div>
   );
